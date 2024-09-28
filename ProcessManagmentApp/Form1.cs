@@ -441,5 +441,70 @@ namespace ProcessManagmentApp
                 MessageBox.Show($"Failed to resume process: {ex.Message}");
             }
         }
+        private void SetProcessPriority(Process process, ProcessPriorityClass priorityClass)
+        {
+            try
+            {
+                process.PriorityClass = priorityClass;
+                MessageBox.Show($"Priority of {process.ProcessName} set to {priorityClass}");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to set priority: {ex.Message}");
+            }
+        }
+        private void ChangePriority(ProcessPriorityClass priorityClass)
+        {
+            try
+            {
+                if (listView1.SelectedItems.Count > 0)
+                {
+                    string processName = listView1.SelectedItems[0].SubItems[0].Text;
+                    Process process = processes.FirstOrDefault(p => p.ProcessName == processName);
+
+                    if (process != null)
+                    {
+                        SetProcessPriority(process, priorityClass);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Process not found.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error changing priority: {ex.Message}");
+            }
+        }
+        private void hIghToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChangePriority(ProcessPriorityClass.High);
+        }
+
+        private void idleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChangePriority(ProcessPriorityClass.Idle);
+        }
+
+        private void realTimeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChangePriority(ProcessPriorityClass.RealTime);
+        }
+
+        private void aboveNormalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChangePriority(ProcessPriorityClass.AboveNormal);
+        }
+
+        private void normalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChangePriority(ProcessPriorityClass.Normal);
+        }
+
+        private void belowNormalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChangePriority(ProcessPriorityClass.BelowNormal);
+        }
     }
 }
