@@ -39,16 +39,30 @@
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.changePriorityToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.idleToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.belowNormalToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.normalToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboveNormalToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.highToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.realTimeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.suspendToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.resumeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.terminateToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this.killToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.killTreeOfProcessesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.idleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.belowNormalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.normalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboveNormalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hIghToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.realTimeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.suspendToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resumeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.terminateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this.listView1 = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -59,12 +73,6 @@
             this.Affinity = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.idleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.belowNormalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.normalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboveNormalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.hIghToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.realTimeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.toolStrip2.SuspendLayout();
@@ -120,8 +128,7 @@
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton1,
             this.toolStripButton2,
-            this.toolStripButton3,
-            this.toolStripButton4});
+            this.toolStripButton3});
             this.toolStrip1.Location = new System.Drawing.Point(0, 28);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(1036, 27);
@@ -158,16 +165,6 @@
             this.toolStripButton3.Text = "Kill Tree of Processes";
             this.toolStripButton3.Click += new System.EventHandler(this.toolStripButton3_Click);
             // 
-            // toolStripButton4
-            // 
-            this.toolStripButton4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
-            this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton4.Name = "toolStripButton4";
-            this.toolStripButton4.Size = new System.Drawing.Size(86, 24);
-            this.toolStripButton4.Text = "Set Affinity";
-            this.toolStripButton4.Click += new System.EventHandler(this.toolStripButton4_Click);
-            // 
             // toolStrip2
             // 
             this.toolStrip2.ContextMenuStrip = this.contextMenuStrip1;
@@ -185,56 +182,88 @@
             // 
             this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.killToolStripMenuItem,
-            this.killTreeOfProcessesToolStripMenuItem,
-            this.suspendToolStripMenuItem,
-            this.resumeToolStripMenuItem,
-            this.terminateToolStripMenuItem});
+            this.changePriorityToolStripMenuItem,
+            this.suspendToolStripMenuItem1,
+            this.resumeToolStripMenuItem1,
+            this.terminateToolStripMenuItem1});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(211, 152);
-            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 100);
             // 
-            // killToolStripMenuItem
+            // changePriorityToolStripMenuItem
             // 
-            this.killToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.idleToolStripMenuItem,
-            this.belowNormalToolStripMenuItem,
-            this.normalToolStripMenuItem,
-            this.aboveNormalToolStripMenuItem,
-            this.hIghToolStripMenuItem,
-            this.realTimeToolStripMenuItem});
-            this.killToolStripMenuItem.Name = "killToolStripMenuItem";
-            this.killToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
-            this.killToolStripMenuItem.Text = "Change priority";
-            this.killToolStripMenuItem.Click += new System.EventHandler(this.changeProrityStripMenuItem_Click);
+            this.changePriorityToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.idleToolStripMenuItem1,
+            this.belowNormalToolStripMenuItem1,
+            this.normalToolStripMenuItem1,
+            this.aboveNormalToolStripMenuItem1,
+            this.highToolStripMenuItem1,
+            this.realTimeToolStripMenuItem1});
+            this.changePriorityToolStripMenuItem.Name = "changePriorityToolStripMenuItem";
+            this.changePriorityToolStripMenuItem.Size = new System.Drawing.Size(180, 24);
+            this.changePriorityToolStripMenuItem.Text = "Change priority";
             // 
-            // killTreeOfProcessesToolStripMenuItem
+            // idleToolStripMenuItem1
             // 
-            this.killTreeOfProcessesToolStripMenuItem.Name = "killTreeOfProcessesToolStripMenuItem";
-            this.killTreeOfProcessesToolStripMenuItem.Size = new System.Drawing.Size(180, 24);
-            this.killTreeOfProcessesToolStripMenuItem.Text = "Set affinity";
-            this.killTreeOfProcessesToolStripMenuItem.Click += new System.EventHandler(this.SetAfinittyToolStripMenuItem_Click);
+            this.idleToolStripMenuItem1.Name = "idleToolStripMenuItem1";
+            this.idleToolStripMenuItem1.Size = new System.Drawing.Size(189, 26);
+            this.idleToolStripMenuItem1.Text = "Idle";
+            this.idleToolStripMenuItem1.Click += new System.EventHandler(this.idleToolStripMenuItem1_Click);
             // 
-            // suspendToolStripMenuItem
+            // belowNormalToolStripMenuItem1
             // 
-            this.suspendToolStripMenuItem.Name = "suspendToolStripMenuItem";
-            this.suspendToolStripMenuItem.Size = new System.Drawing.Size(180, 24);
-            this.suspendToolStripMenuItem.Text = "Suspend";
-            this.suspendToolStripMenuItem.Click += new System.EventHandler(this.suspendToolStripMenuItem_Click);
+            this.belowNormalToolStripMenuItem1.Name = "belowNormalToolStripMenuItem1";
+            this.belowNormalToolStripMenuItem1.Size = new System.Drawing.Size(189, 26);
+            this.belowNormalToolStripMenuItem1.Text = "Below normal";
+            this.belowNormalToolStripMenuItem1.Click += new System.EventHandler(this.belowNormalToolStripMenuItem1_Click);
             // 
-            // resumeToolStripMenuItem
+            // normalToolStripMenuItem1
             // 
-            this.resumeToolStripMenuItem.Name = "resumeToolStripMenuItem";
-            this.resumeToolStripMenuItem.Size = new System.Drawing.Size(180, 24);
-            this.resumeToolStripMenuItem.Text = "Resume";
-            this.resumeToolStripMenuItem.Click += new System.EventHandler(this.resumeToolStripMenuItem_Click);
+            this.normalToolStripMenuItem1.Name = "normalToolStripMenuItem1";
+            this.normalToolStripMenuItem1.Size = new System.Drawing.Size(189, 26);
+            this.normalToolStripMenuItem1.Text = "Normal";
+            this.normalToolStripMenuItem1.Click += new System.EventHandler(this.normalToolStripMenuItem1_Click);
             // 
-            // terminateToolStripMenuItem
+            // aboveNormalToolStripMenuItem1
             // 
-            this.terminateToolStripMenuItem.Name = "terminateToolStripMenuItem";
-            this.terminateToolStripMenuItem.Size = new System.Drawing.Size(180, 24);
-            this.terminateToolStripMenuItem.Text = "Terminate";
-            this.terminateToolStripMenuItem.Click += new System.EventHandler(this.terminateToolStripMenuItem_Click);
+            this.aboveNormalToolStripMenuItem1.Name = "aboveNormalToolStripMenuItem1";
+            this.aboveNormalToolStripMenuItem1.Size = new System.Drawing.Size(189, 26);
+            this.aboveNormalToolStripMenuItem1.Text = "Above Normal";
+            this.aboveNormalToolStripMenuItem1.Click += new System.EventHandler(this.aboveNormalToolStripMenuItem1_Click);
+            // 
+            // highToolStripMenuItem1
+            // 
+            this.highToolStripMenuItem1.Name = "highToolStripMenuItem1";
+            this.highToolStripMenuItem1.Size = new System.Drawing.Size(189, 26);
+            this.highToolStripMenuItem1.Text = "High";
+            this.highToolStripMenuItem1.Click += new System.EventHandler(this.highToolStripMenuItem1_Click);
+            // 
+            // realTimeToolStripMenuItem1
+            // 
+            this.realTimeToolStripMenuItem1.Name = "realTimeToolStripMenuItem1";
+            this.realTimeToolStripMenuItem1.Size = new System.Drawing.Size(189, 26);
+            this.realTimeToolStripMenuItem1.Text = "Real time";
+            this.realTimeToolStripMenuItem1.Click += new System.EventHandler(this.realTimeToolStripMenuItem1_Click);
+            // 
+            // suspendToolStripMenuItem1
+            // 
+            this.suspendToolStripMenuItem1.Name = "suspendToolStripMenuItem1";
+            this.suspendToolStripMenuItem1.Size = new System.Drawing.Size(180, 24);
+            this.suspendToolStripMenuItem1.Text = "Suspend";
+            this.suspendToolStripMenuItem1.Click += new System.EventHandler(this.suspendToolStripMenuItem1_Click);
+            // 
+            // resumeToolStripMenuItem1
+            // 
+            this.resumeToolStripMenuItem1.Name = "resumeToolStripMenuItem1";
+            this.resumeToolStripMenuItem1.Size = new System.Drawing.Size(180, 24);
+            this.resumeToolStripMenuItem1.Text = "Resume";
+            this.resumeToolStripMenuItem1.Click += new System.EventHandler(this.resumeToolStripMenuItem1_Click);
+            // 
+            // terminateToolStripMenuItem1
+            // 
+            this.terminateToolStripMenuItem1.Name = "terminateToolStripMenuItem1";
+            this.terminateToolStripMenuItem1.Size = new System.Drawing.Size(180, 24);
+            this.terminateToolStripMenuItem1.Text = "Terminate";
+            this.terminateToolStripMenuItem1.Click += new System.EventHandler(this.terminateToolStripMenuItem1_Click);
             // 
             // toolStripLabel1
             // 
@@ -248,6 +277,67 @@
             this.toolStripTextBox1.Name = "toolStripTextBox1";
             this.toolStripTextBox1.Size = new System.Drawing.Size(132, 27);
             this.toolStripTextBox1.TextChanged += new System.EventHandler(this.toolStripTextBox1_TextChanged);
+            // 
+            // killToolStripMenuItem
+            // 
+            this.killToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.idleToolStripMenuItem,
+            this.belowNormalToolStripMenuItem,
+            this.normalToolStripMenuItem,
+            this.aboveNormalToolStripMenuItem,
+            this.hIghToolStripMenuItem,
+            this.realTimeToolStripMenuItem});
+            this.killToolStripMenuItem.Name = "killToolStripMenuItem";
+            this.killToolStripMenuItem.Size = new System.Drawing.Size(180, 24);
+            this.killToolStripMenuItem.Text = "Change priority";
+            this.killToolStripMenuItem.Click += new System.EventHandler(this.changeProrityStripMenuItem_Click);
+            // 
+            // idleToolStripMenuItem
+            // 
+            this.idleToolStripMenuItem.Name = "idleToolStripMenuItem";
+            this.idleToolStripMenuItem.Size = new System.Drawing.Size(83, 26);
+            // 
+            // belowNormalToolStripMenuItem
+            // 
+            this.belowNormalToolStripMenuItem.Name = "belowNormalToolStripMenuItem";
+            this.belowNormalToolStripMenuItem.Size = new System.Drawing.Size(83, 26);
+            // 
+            // normalToolStripMenuItem
+            // 
+            this.normalToolStripMenuItem.Name = "normalToolStripMenuItem";
+            this.normalToolStripMenuItem.Size = new System.Drawing.Size(83, 26);
+            // 
+            // aboveNormalToolStripMenuItem
+            // 
+            this.aboveNormalToolStripMenuItem.Name = "aboveNormalToolStripMenuItem";
+            this.aboveNormalToolStripMenuItem.Size = new System.Drawing.Size(83, 26);
+            // 
+            // hIghToolStripMenuItem
+            // 
+            this.hIghToolStripMenuItem.Name = "hIghToolStripMenuItem";
+            this.hIghToolStripMenuItem.Size = new System.Drawing.Size(83, 26);
+            // 
+            // realTimeToolStripMenuItem
+            // 
+            this.realTimeToolStripMenuItem.Name = "realTimeToolStripMenuItem";
+            this.realTimeToolStripMenuItem.Size = new System.Drawing.Size(83, 26);
+            // 
+            // suspendToolStripMenuItem
+            // 
+            this.suspendToolStripMenuItem.Name = "suspendToolStripMenuItem";
+            this.suspendToolStripMenuItem.Size = new System.Drawing.Size(32, 19);
+            // 
+            // resumeToolStripMenuItem
+            // 
+            this.resumeToolStripMenuItem.Name = "resumeToolStripMenuItem";
+            this.resumeToolStripMenuItem.Size = new System.Drawing.Size(32, 19);
+            // 
+            // terminateToolStripMenuItem
+            // 
+            this.terminateToolStripMenuItem.Name = "terminateToolStripMenuItem";
+            this.terminateToolStripMenuItem.Size = new System.Drawing.Size(180, 24);
+            this.terminateToolStripMenuItem.Text = "Terminate";
+            this.terminateToolStripMenuItem.Click += new System.EventHandler(this.terminateToolStripMenuItem_Click);
             // 
             // listView1
             // 
@@ -324,48 +414,6 @@
             this.toolStripMenuItem1.Size = new System.Drawing.Size(211, 24);
             this.toolStripMenuItem1.Text = "toolStripMenuItem1";
             // 
-            // idleToolStripMenuItem
-            // 
-            this.idleToolStripMenuItem.Name = "idleToolStripMenuItem";
-            this.idleToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.idleToolStripMenuItem.Text = "Idle";
-            this.idleToolStripMenuItem.Click += new System.EventHandler(this.idleToolStripMenuItem_Click);
-            // 
-            // belowNormalToolStripMenuItem
-            // 
-            this.belowNormalToolStripMenuItem.Name = "belowNormalToolStripMenuItem";
-            this.belowNormalToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.belowNormalToolStripMenuItem.Text = "Below Normal";
-            this.belowNormalToolStripMenuItem.Click += new System.EventHandler(this.belowNormalToolStripMenuItem_Click);
-            // 
-            // normalToolStripMenuItem
-            // 
-            this.normalToolStripMenuItem.Name = "normalToolStripMenuItem";
-            this.normalToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.normalToolStripMenuItem.Text = "Normal";
-            this.normalToolStripMenuItem.Click += new System.EventHandler(this.normalToolStripMenuItem_Click);
-            // 
-            // aboveNormalToolStripMenuItem
-            // 
-            this.aboveNormalToolStripMenuItem.Name = "aboveNormalToolStripMenuItem";
-            this.aboveNormalToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.aboveNormalToolStripMenuItem.Text = "Above Normal";
-            this.aboveNormalToolStripMenuItem.Click += new System.EventHandler(this.aboveNormalToolStripMenuItem_Click);
-            // 
-            // hIghToolStripMenuItem
-            // 
-            this.hIghToolStripMenuItem.Name = "hIghToolStripMenuItem";
-            this.hIghToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.hIghToolStripMenuItem.Text = "HIgh";
-            this.hIghToolStripMenuItem.Click += new System.EventHandler(this.hIghToolStripMenuItem_Click);
-            // 
-            // realTimeToolStripMenuItem
-            // 
-            this.realTimeToolStripMenuItem.Name = "realTimeToolStripMenuItem";
-            this.realTimeToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.realTimeToolStripMenuItem.Text = "Real Time";
-            this.realTimeToolStripMenuItem.Click += new System.EventHandler(this.realTimeToolStripMenuItem_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -410,9 +458,7 @@
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem killToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem killTreeOfProcessesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem runNewProcessToolStripMenuItem;
-        private System.Windows.Forms.ToolStripButton toolStripButton4;
         private System.Windows.Forms.ColumnHeader PID;
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ContextMenuStrip Affinity;
@@ -430,6 +476,16 @@
         private System.Windows.Forms.ToolStripMenuItem aboveNormalToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hIghToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem realTimeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem changePriorityToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem suspendToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem resumeToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem terminateToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem idleToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem belowNormalToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem normalToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem aboveNormalToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem highToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem realTimeToolStripMenuItem1;
     }
 }
 
