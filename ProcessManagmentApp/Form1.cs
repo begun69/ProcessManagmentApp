@@ -18,17 +18,21 @@ namespace ProcessManagmentApp
     public partial class Form1 : Form
     {
         private List<Process> processes = null;
-
         private ListViewItemComparer comparer = null;
-       
+        private Dictionary<int, bool> suspendedProcesses = new Dictionary<int, bool>();
+
+
+
         [DllImport("ntdll.dll", SetLastError = true)]
         private static extern int NtSuspendProcess(IntPtr processHandle);
 
         [DllImport("ntdll.dll", SetLastError = true)]
         private static extern int NtResumeProcess(IntPtr processHandle);
+        
         public Form1()
         {
             InitializeComponent();
+            
         }
 
 
@@ -59,7 +63,8 @@ namespace ProcessManagmentApp
 
                         // Get the priority and CPU time
                         string priority = p.PriorityClass.ToString();
-                        string cpuTime = p.TotalProcessorTime.ToString(@"hh\:mm\:ss");  // Format the CPU time as hours, minutes, and seconds
+                        string cpuTime = p.TotalProcessorTime.ToString(@"hh\:mm\:ss");
+                        string status = p.HasExited ? "Exited" : (p.Responding ? "Running" : "Suspended");
 
                         // Include ProcessName, Memory Size, PID, Priority, and CPU Time
                         string[] row = new string[] {
@@ -67,7 +72,8 @@ namespace ProcessManagmentApp
                         Math.Round(memSize, 1).ToString() + "MB",
                         p.Id.ToString(),
                         priority,
-                        cpuTime
+                        cpuTime,
+                        status
                 };
                         listView1.Items.Add(new ListViewItem(row));
 
@@ -108,6 +114,7 @@ namespace ProcessManagmentApp
                         string cpuTime = "N/A";
                         string status = p.HasExited ? "Exited" : (p.Responding ? "Running" : "Suspended");
 
+                       
                         // Try to get PriorityClass safely
                         try
                         {
@@ -129,8 +136,11 @@ namespace ProcessManagmentApp
                             // Log or silently skip this process if "Access is denied"
                             Console.WriteLine($"Access denied for CPU Time of process {p.ProcessName} (PID: {p.Id}): {ex.Message}");
                         }
+                        if (suspendedProcesses.ContainsKey(p.Id) && suspendedProcesses[p.Id])
+                        {
+                            status = "Suspended";
+                        }
 
-                        
                         string[] row = new string[] {
                         p.ProcessName.ToString(),
                         Math.Round(memSize, 1).ToString() + "MB",
@@ -146,7 +156,7 @@ namespace ProcessManagmentApp
                     }
                     catch (Exception ex)
                     {
-                        // Handle any other process access exceptions here (e.g., memory, etc.)
+                        
                         Console.WriteLine($"Error accessing process {p.ProcessName} (PID: {p.Id}): {ex.Message}");
                     }
                 }
@@ -156,15 +166,25 @@ namespace ProcessManagmentApp
         }
 
 
-       
+
 
         private void KillProcess(Process process)
         {
-            process.Kill();
-            process.WaitForExit();
+            try
+            {
+                if (process != null && !process.HasExited)
+                {
+                    process.Kill();
+                    process.WaitForExit();
+                    MessageBox.Show($"Process {process.ProcessName} (PID: {process.Id}) terminated.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error terminating process: {ex.Message}");
+            }
         }
 
-       
         private void KillTreeOfProcesses(int pid)
         {
             if (pid == 0)
@@ -267,7 +287,7 @@ namespace ProcessManagmentApp
             comparer.ColumnIndex = 0;
         }
 
-        private void SetAfinittyToolStripMenuItem_Click(object sender, EventArgs e)
+       /* private void SetAfinittyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
@@ -281,7 +301,7 @@ namespace ProcessManagmentApp
                 }
             }
             catch (Exception) { }
-        }
+        }*/
 
         private void runNewProcessToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -351,16 +371,7 @@ namespace ProcessManagmentApp
             Process.Start(filepath);
         }
 
-        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
-        {
-
-        }
-
-        private void cmdToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            string filepath = @"C:\Windows\System32\cmd.exe";
-            Process.Start(filepath);
-        }
+        
 
         private void tabulateToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -368,27 +379,18 @@ namespace ProcessManagmentApp
             Process.Start(filepath);
         }
 
-        private void findWordByMaxLengthToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            string filepath = @"X:\Lesson\Longest_word\bin\Debug\net6.0\Longest_word.exe";
-            Process.Start(filepath);
-        }
-
         private void terminateToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Process processesToKill = processes.Where((x) => x.ProcessName == listView1.SelectedItems[0].SubItems[0].Text).ToList()[0];
-            KillTreeOfProcesses(GetParentProcessId(processesToKill));
-
-            GetProcesses();
-            RefreshProcessesList();
+           
         }
         private void SuspendProcess(Process process)
         {
             try
             {
-                var processHandle = process.Handle;
-                NtSuspendProcess(processHandle);
+                NtSuspendProcess(process.Handle);
+                suspendedProcesses[process.Id] = true;  // Mark process as suspended
                 MessageBox.Show($"Process {process.ProcessName} (PID: {process.Id}) suspended.");
+                RefreshProcessesList();  // Ensure the list is refreshed after suspending
             }
             catch (Exception ex)
             {
@@ -399,26 +401,101 @@ namespace ProcessManagmentApp
         {
             try
             {
-                var processHandle = process.Handle;
-                NtResumeProcess(processHandle);
+                NtResumeProcess(process.Handle);
+                suspendedProcesses[process.Id] = false;  // Mark process as resumed
                 MessageBox.Show($"Process {process.ProcessName} (PID: {process.Id}) resumed.");
+                RefreshProcessesList();  // Ensure the list is refreshed after resuming
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Failed to resume process: {ex.Message}");
             }
         }
-        private void suspendToolStripMenuItem_Click(object sender, EventArgs e)
+       
+        private void SetProcessPriority(Process process, ProcessPriorityClass priorityClass)
         {
             try
             {
-                    var processName = listView1.SelectedItems[0].SubItems[0].Text;
-                    var process = processes.Find(p => p.ProcessName == processName);
+                process.PriorityClass = priorityClass;
+                MessageBox.Show($"Priority of {process.ProcessName} set to {priorityClass}");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to set priority: {ex.Message}");
+            }
+        }
+        private void ChangePriority(ProcessPriorityClass priorityClass)
+        {
+            try
+            {
+                if (listView1.SelectedItems.Count > 0)
+                {
+                    string processName = listView1.SelectedItems[0].SubItems[0].Text;
+                    Process process = processes.FirstOrDefault(p => p.ProcessName == processName);
+
                     if (process != null)
                     {
-                        SuspendProcess(process);
+                        SetProcessPriority(process, priorityClass);
                     }
-                
+                    else
+                    {
+                        MessageBox.Show("Process not found.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error changing priority: {ex.Message}");
+            }
+        }
+        private void ProcessRefreshTimer_Tick(object sender, EventArgs e)
+        {
+            GetProcesses(); // Refresh the list of processes
+            RefreshProcessesList(); // Update the ListView with current process information
+        }
+       
+        //
+        private void idleToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            ChangePriority(ProcessPriorityClass.Idle);
+        }
+
+        private void belowNormalToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            ChangePriority(ProcessPriorityClass.BelowNormal);
+        }
+
+        private void normalToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            ChangePriority(ProcessPriorityClass.Normal);
+        }
+
+        private void aboveNormalToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            ChangePriority(ProcessPriorityClass.AboveNormal);
+        }
+
+        private void highToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            ChangePriority(ProcessPriorityClass.High);
+        }
+
+        private void realTimeToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            ChangePriority(ProcessPriorityClass.RealTime);
+        }
+
+        private void suspendToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var processName = listView1.SelectedItems[0].SubItems[0].Text;
+                var process = processes.Find(p => p.ProcessName == processName);
+                if (process != null)
+                {
+                    SuspendProcess(process);
+                }
+
             }
             catch (Exception ex)
             {
@@ -426,9 +503,9 @@ namespace ProcessManagmentApp
             }
         }
 
-        private void resumeToolStripMenuItem_Click(object sender, EventArgs e)
+        private void resumeToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-             try
+            try
             {
                 var processName = listView1.SelectedItems[0].SubItems[0].Text;
                 var process = processes.Find(p => p.ProcessName == processName);
@@ -439,6 +516,29 @@ namespace ProcessManagmentApp
             catch (Exception ex)
             {
                 MessageBox.Show($"Failed to resume process: {ex.Message}");
+            }
+        }
+
+        private void terminateToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (listView1.SelectedItems.Count > 0)
+                {
+                    string selectedProcessName = listView1.SelectedItems[0].SubItems[0].Text;
+                    Process processToKill = processes.FirstOrDefault(p => p.ProcessName.Equals(selectedProcessName));
+
+                    if (processToKill != null)
+                    {
+                        KillProcess(processToKill);
+                        GetProcesses();  // Refresh process list after killing
+                        RefreshProcessesList();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error terminating process: {ex.Message}");
             }
         }
     }
